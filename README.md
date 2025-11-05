@@ -3,6 +3,8 @@
 **Real-time DeFi Position Monitoring & Automated Rescue System for Somnia Networks**
 
 RescueStream is a comprehensive DeFi position monitoring platform that provides real-time health tracking, automated rescue capabilities, and an intuitive dashboard for managing lending positions on Somnia blockchain networks. Built with production-ready smart contracts, a robust relayer service, and a modern React frontend.
+<img width="1187" height="714" alt="Gemini_Generated_Image_3stwu63stwu63stw" src="https://github.com/user-attachments/assets/5d3260c3-06f9-457a-915b-18f2543be9e8" />
+
 
 ## 🌟 Overview
 
