@@ -1,0 +1,16 @@
+version: '3.9'
+services:
+  relayer:
+    build:
+      context: ./relayer
+    environment:
+      SOMNIA_RPC_URL: ${SOMNIA_RPC_URL}
+      PRIVATE_KEY: ${PRIVATE_KEY}
+      LENDING_ADDR: ${LENDING_ADDR}
+      SOMNIA_WS_URL: ${SOMNIA_WS_URL}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      PORT: 8080
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
