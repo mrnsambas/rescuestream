@@ -4,7 +4,7 @@ import { createPublicClient, createWalletClient, http, toHex, type Hex } from 'v
 import { privateKeyToAccount } from 'viem/accounts';
 import { needEnv } from './util/env';
 
-const POSITION_SCHEMA = 'string positionId, address owner, string protocol, address collateralToken, address debtToken, uint256 collateralAmount, uint256 debtAmount, uint256 collateralValueUSD, uint256 debtValueUSD, uint256 healthFactor, uint256 liquidationThreshold, uint256 lastUpdatedAt, string status';
+const POSITION_SCHEMA = 'string positionId, address owner, string protocol, address collateralToken, address debtToken, uint256 collateralAmount, uint256 debtAmount, uint256 collateralValueUSD, uint256 debtValueUSD, uint256 healthFactor, uint256 liquidationPrice, uint256 liquidationThreshold, uint256 lastUpdatedAt, string status';
 
 const rpcUrl = needEnv('SOMNIA_RPC_URL');
 const privateKey = needEnv('PRIVATE_KEY') as `0x${string}`;
@@ -35,6 +35,7 @@ export type PositionPayload = {
   collateralValueUSD?: string;
   debtValueUSD?: string;
   healthFactor: string; // 1e18
+  liquidationPrice?: string;
   liquidationThreshold?: string;
   lastUpdatedAt: number;
   status?: string;
@@ -53,6 +54,7 @@ export async function writePosition(entry: PositionPayload): Promise<Hex> {
     { name: 'collateralValueUSD', value: entry.collateralValueUSD ?? '0', type: 'uint256' },
     { name: 'debtValueUSD', value: entry.debtValueUSD ?? '0', type: 'uint256' },
     { name: 'healthFactor', value: entry.healthFactor, type: 'uint256' },
+    { name: 'liquidationPrice', value: entry.liquidationPrice ?? '0', type: 'uint256' },
     { name: 'liquidationThreshold', value: entry.liquidationThreshold ?? '0', type: 'uint256' },
     { name: 'lastUpdatedAt', value: String(entry.lastUpdatedAt), type: 'uint256' },
     { name: 'status', value: entry.status ?? '', type: 'string' },

@@ -10,6 +10,8 @@ type Entry = {
   collateralValueUSD?: string;
   debtValueUSD?: string;
   healthFactor: string;
+  liquidationPrice?: string;
+  liquidationThreshold?: string;
   lastUpdatedAt: number;
   status?: string;
 };
@@ -39,8 +41,10 @@ export function usePositionStream(onUpdate: (e: Entry) => void, _filters?: { own
             collateralValueUSD: String(r[7]?.value ?? r[7] ?? '0'),
             debtValueUSD: String(r[8]?.value ?? r[8] ?? '0'),
             healthFactor: String(r[9]?.value ?? r[9] ?? '0'),
-            lastUpdatedAt: Number(r[11]?.value ?? r[11] ?? 0),
-            status: String(r[12]?.value ?? r[12] ?? ''),
+            liquidationPrice: String(r[10]?.value ?? r[10] ?? '0'),
+            liquidationThreshold: String(r[11]?.value ?? r[11] ?? '1.0'),
+            lastUpdatedAt: Number(r[12]?.value ?? r[12] ?? 0),
+            status: String(r[13]?.value ?? r[13] ?? ''),
           };
           onUpdate(entry);
           seen.add(key);

@@ -9,7 +9,11 @@
     "clean": "rimraf artifacts cache",
     "compile": "hardhat compile",
     "test": "hardhat test",
-    "deploy": "ts-node deploy/deploy.ts"
+    "test:gas": "hardhat test --gas-reporter",
+    "test:coverage": "hardhat coverage",
+    "deploy": "ts-node deploy/deploy.ts",
+    "security:slither": "slither .",
+    "security:mythx": "mythx analyze"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",

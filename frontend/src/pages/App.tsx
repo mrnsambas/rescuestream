@@ -1,60 +1,56 @@
 import React from 'react';
-import { useState, useCallback, useMemo } from 'react';
-import { usePositionStream } from '../hooks/useSomniaStreams';
-import { PositionList, Position } from '../components/PositionList';
-import { Alerts } from '../components/Alerts';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Sidebar } from '../components/Sidebar';
-import { TopBar } from '../components/TopBar';
-import { StreamsTable } from '../components/StreamsTable';
-import { DetailsPanel } from '../components/DetailsPanel';
-import { RescueModal } from '../components/RescueModal';
+import { Alerts as AlertNotification } from '../components/Alerts';
+import { ToastContainer, ToastProvider } from '../components/Toast';
+import { ErrorBoundary } from '../components/ErrorBoundary';
+import { Dashboard } from './Dashboard';
+import { Streams } from './Streams';
+import { AlertsPage } from './Alerts';
+import { Bot } from './Bot';
+import { Settings } from './Settings';
+import { History } from './History';
 import '../styles/theme.css';
 
 export function App() {
-  const [positions, setPositions] = useState<Position[]>([]);
-  const [filter, setFilter] = useState('');
-  const [selected, setSelected] = useState<string | undefined>();
-  const [modal, setModal] = useState<{open:boolean,id?:string,owner?:string,newCol?:bigint,debt?:bigint}>({open:false});
-  const [alertTick, setAlertTick] = useState(0);
-  const onUpdate = useCallback((entry: Position) => {
-    setPositions((prev) => [entry, ...prev].slice(0, 100));
-    if (entry.status === 'at_risk') setAlertTick((t) => t + 1);
-  }, []);
-  usePositionStream(onUpdate);
-
-  const tableRows = useMemo(()=>positions
-    .filter(p=>p.owner.toLowerCase().includes(filter.toLowerCase()))
-    .map(p=>({
-      positionId:p.positionId,owner:p.owner,
-      collateralUsd: p.collateralValueUSD ?? p.collateralAmount,
-      debtUsd: p.debtValueUSD ?? p.debtAmount,
-      healthFactor:p.healthFactor,status:p.status
-    })),[positions,filter]);
-
-  const sel = positions.find(p=>p.positionId===selected);
+  const [alertTick, setAlertTick] = React.useState(0);
 
   return (
-    <div className="rs-grid" style={{padding:16}}>
-      <Sidebar />
-      <main style={{display:'flex',flexDirection:'column',gap:12}}>
-        <TopBar onSearch={setFilter} />
-        <StreamsTable
-          rows={tableRows}
-          onSelect={(id)=>setSelected(id)}
-          onRescue={(id)=>{
-            const p = positions.find(x=>x.positionId===id);
-            if(!p) return; setModal({open:true,id,owner:p.owner,newCol:BigInt(p.collateralAmount)+100n,debt:BigInt(p.debtAmount)});
-          }}
-        />
-      </main>
-      <div style={{display:'flex',flexDirection:'column',gap:12}}>
-        <DetailsPanel positionId={sel?.positionId} owner={sel?.owner} onRescue={()=>{
-          if(!sel) return; setModal({open:true,id:sel.positionId,owner:sel.owner,newCol:BigInt(sel.collateralAmount)+100n,debt:BigInt(sel.debtAmount)});
-        }} />
-      </div>
-      <Alerts trigger={alertTick} />
-      <RescueModal open={modal.open} onClose={()=>setModal({open:false})} positionId={modal.id||''} owner={modal.owner||''} newCollateral={modal.newCol||0n} debt={modal.debt||0n} />
-    </div>
+    <ErrorBoundary
+      onError={(error, errorInfo) => {
+        // Log error to console or error reporting service
+        console.error('App-level error:', error, errorInfo);
+      }}
+    >
+      <BrowserRouter>
+        <ToastProvider>
+          <div className="rs-grid" style={{padding:16}}>
+            <ErrorBoundary>
+              <Sidebar />
+            </ErrorBoundary>
+            <main style={{display:'flex',flexDirection:'column',gap:12}}>
+              <ErrorBoundary>
+                <Routes>
+                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/streams" element={<Streams />} />
+                  <Route path="/alerts" element={<AlertsPage />} />
+                  <Route path="/bot" element={<Bot />} />
+                  <Route path="/history" element={<History />} />
+                  <Route path="/settings" element={<Settings />} />
+                </Routes>
+              </ErrorBoundary>
+            </main>
+            <ErrorBoundary>
+              <AlertNotification trigger={alertTick} />
+            </ErrorBoundary>
+            <ErrorBoundary>
+              <ToastContainer />
+            </ErrorBoundary>
+          </div>
+        </ToastProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 

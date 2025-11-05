@@ -97,10 +97,31 @@ VITE_POSITION_PUBLISHER=0x0000000000000000000000000000000000000000 \
 npm run dev
 ```
 
-## Production Deploy Notes
+## Production Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete production deployment instructions.
+
+### Quick Deploy to Vercel
+
+```bash
+cd frontend
+vercel login
+vercel --prod
+```
+
+Set environment variables in Vercel dashboard:
+- `VITE_SOMNIA_RPC_URL`
+- `VITE_RESCUE_HELPER_ADDRESS`
+- `VITE_POSITION_SCHEMA_ID`
+- `VITE_POSITION_PUBLISHER`
+- `VITE_RELAYER_URL` (optional)
+- `VITE_WALLETCONNECT_ID` (optional)
+
+### Production Notes
 - Contracts: configure `maxTopUpDelta`, and set helper via `setHelper(RescueHelper)` post-deploy.
 - Relayer: replace stub pricing with oracle feeds; persist last processed block.
 - Frontend: set real Streams `schemaId` and `publisher` and configure WalletConnect ID.
+- All hardcoded localhost URLs have been removed - use environment variables.
 
 ## Repository Topics
 Suggested topics: `defi`, `somnia`, `realtime`, `streams`, `hardhat`, `ethers`, `vite`, `react`, `solidity`.
